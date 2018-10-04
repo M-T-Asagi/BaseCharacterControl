@@ -36,7 +36,9 @@ public class WalkController : MonoBehaviour
         if (horizontal != 0 || vertical != 0)
         {
             float absolutedVertical = Mathf.Abs(vertical);
-            Quaternion newrota = Quaternion.LookRotation((camera.forward * absolutedVertical) + (camera.right * horizontal), Vector3.up);
+            Quaternion newrota = Quaternion.LookRotation(
+                (new Vector3(camera.forward.x, rigidbody.position.y, camera.forward.z) * absolutedVertical) + (new Vector3(camera.right.x, rigidbody.position.y, camera.right.z) * horizontal),
+                Vector3.up);
 
             rigidbody.rotation = newrota;
             rigidbody.position += newrota * Vector3.forward * walkSpeed * (Time.time - lastTime) * Mathf.Min((Mathf.Abs(horizontal) + absolutedVertical), 1f) * Mathf.Sign(vertical);
